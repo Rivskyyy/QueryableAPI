@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\QueryableCore\QueryableCore.csproj" />
     <ProjectReference Include="..\QueryableDatabase\QueryableDatabase.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>

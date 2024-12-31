@@ -12,7 +12,7 @@ namespace QueryableDatabase.Migrations
     {
         public MSQLContext(DbContextOptions<MSQLContext> dbContextOptions) : base(dbContextOptions) { }
 
-        public DbSet<Building> Buildings { get; set; }
+        public DbSet<Buildings> Buildings { get; set; }
 /*
         private static DbContextOptions GetOptions(string connectionString)
         {

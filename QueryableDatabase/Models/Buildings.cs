@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QueryableDatabase.Models
 {
-    public class Building
+    public class Buildings
     {
         [Key]
         public int Id { get; set; }

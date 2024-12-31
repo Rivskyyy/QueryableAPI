@@ -18,14 +18,14 @@ namespace QueryableCore.Services
             _buildingRepository = buildingRepository;
         }
 
-        public int? CreateBuilding(BuildingDtos buildingDto)
+        public int? CreateBuilding(BuildingsDtos buildingDto)
         {
             return _buildingRepository.CreaBuilding(buildingDto);
         }
 
-        public IQueryable<> GetAllBuildings()
+       public int? Get()
         {
-           
+
         }
     }
 }

@@ -9,6 +9,8 @@ namespace QueryableCore.Services.Interfaces
 {
     public interface IBuildingRepository
     {
-        int? CreaBuilding(BuildingDtos buildingDto);
+        int? CreaBuilding(BuildingsDtos buildingDto);
+
+        int? Get();
     }
 }

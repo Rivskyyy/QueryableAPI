@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QueryableCore.DTOs
 {
-    public class BuildingDtos
+    public class BuildingsDtos
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -19,9 +19,9 @@ namespace QueryableDatabase.Repositories
             _sqlContext = sqlContext;
         }
 
-        public int? CreaBuilding(BuildingDtos buildingDto)
+        public int? CreaBuilding(BuildingsDtos buildingDto)
         {
-            Building building = new Building
+            Buildings building = new Buildings
             {
                 Id = default,
                 Name = buildingDto.Name,
@@ -37,6 +37,11 @@ namespace QueryableDatabase.Repositories
             int changesCount = _sqlContext.SaveChanges();
 
             return changesCount > 0 ? building.Id : null;
+        }
+
+        public int? Get()
+        {
+            
         }
     }
 }
