@@ -24,7 +24,7 @@ namespace QuerableAPI.Controllers
         [HttpGet]
         public IActionResult Get([FromBody] BuildingsRequestData requestData)
         {
-            //var buildings = _buildingService.GetFilteredBuildings(requestData);
+            var buildings = _buildingService.GetFilteredBuildings(requestData);
             return Ok(buildings);
            
         }

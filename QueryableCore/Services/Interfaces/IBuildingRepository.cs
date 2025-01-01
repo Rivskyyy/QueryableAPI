@@ -1,4 +1,5 @@
 ﻿using QueryableCore.DTOs;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,6 @@ namespace QueryableCore.Services.Interfaces
     {
         int? CreaBuilding(BuildingsDtos buildingDto);
 
-        int? Get();
+        public IQueryable<BuildingsDtos> GetFilteredBuildings(BuildingsRequestData buildingsRequestData);
     }
 }

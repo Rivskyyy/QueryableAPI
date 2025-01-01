@@ -1,6 +1,6 @@
 ﻿using QueryableCore.DTOs;
 using QueryableCore.Services.Interfaces;
-
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +23,26 @@ namespace QueryableCore.Services
             return _buildingRepository.CreaBuilding(buildingDto);
         }
 
-       public int? Get()
+        public List<BuildingsDtos> GetFilteredBuildings(BuildingsRequestData buildingsRequestData)
         {
 
+            /*  var query = _buildingRepository.GetFilteredBuildings(buildingsRequestData);
+
+              var buildingsDtos = query
+                  .Select(building => new BuildingsDtos
+                  {
+                      Id = building.Id,
+                      Name = building.Name,
+                      City = building.City,
+                      Street = building.Street,
+                      BuildingNumber = building.BuildingNumber,
+                      Floors = building.Floors,
+                      YearBuilt = building.YearBuilt
+                  })
+                  .ToList(); */
+
+            return _buildingRepository.GetFilteredBuildings(buildingsRequestData).ToList();
         }
+
     }
 }

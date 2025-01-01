@@ -9,15 +9,15 @@ namespace Shared
 {
     public class BuildingsRequestData
     {
-        public BuildingsFilterData _BuildingsFilterData { get; set; } = new();
-        public SortOrder _SortOrder { get; set; } = SortOrder.None;
-        public BuildingOrderBy _BuildingOrderBy { get; set; } = BuildingOrderBy.None;
+        public BuildingsFilterData BuildingsFilterData { get; set; } = new();
+        public SortOrder SortOrder { get; set; } = SortOrder.None;
+        public BuildingOrderBy BuildingOrderBy { get; set; } = BuildingOrderBy.None;
 
-      /*  public BuildingsRequestData(BuildingsFilterData buildingsFilterData, SortOrder sortOrder, BuildingOrderBy buildingOrderBy) 
-        { 
-            _BuildingOrderBy = buildingOrderBy;
-            _SortOrder = sortOrder;
-            _BuildingsFilterData = buildingsFilterData;
-        }   */
+        public BuildingsRequestData(BuildingsFilterData buildingsFilterData, SortOrder sortOrder, BuildingOrderBy buildingOrderBy)
+        {
+            BuildingOrderBy = buildingOrderBy;
+            SortOrder = sortOrder;
+            BuildingsFilterData = buildingsFilterData;
+        }
     }
 }
