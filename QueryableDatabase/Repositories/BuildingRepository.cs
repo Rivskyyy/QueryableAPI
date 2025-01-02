@@ -29,7 +29,6 @@ namespace QueryableDatabase.Repositories
             Buildings building = _mapper.Map<Buildings>(buildingDto);
 
             _sqlContext.Buildings.Add(building);
-            //_sqlContext.Buildings.Where(b => );
             int changesCount = _sqlContext.SaveChanges();
 
             return changesCount > 0 ? building.Id : null;
@@ -40,45 +39,39 @@ namespace QueryableDatabase.Repositories
         {
 
             IQueryable<Buildings> buildings = _sqlContext.Buildings;
-            //IQueryable<BuildingsDtos> dtoQuery = query.ProjectTo<BuildingsDtos>(_mapper.ConfigurationProvider);
-
-            /*  var dtoQuery = query.Select(b => new BuildingsDtos
-              {
-                  Id = b.Id,
-                  Name = b.Name,
-                  City = b.City,
-                  Street = b.Street,
-                  BuildingNumber = b.BuildingNumber,
-                  Floors = b.Floors,
-                  YearBuilt = b.YearBuilt
-              });*/
-
-
 
             if (buildingsRequestData.BuildingsFilterData.Names != null && buildingsRequestData.BuildingsFilterData.Names.Any()) 
-                buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.Names.Contains(b.Name));
+                buildings = buildings.Where(b => 
+                buildingsRequestData.BuildingsFilterData.Names.Contains(b.Name));
 
             if (buildingsRequestData.BuildingsFilterData.Citys != null && buildingsRequestData.BuildingsFilterData.Citys.Any())
-                buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.Citys.Contains(b.City));
+                buildings = buildings.Where(b =>
+                buildingsRequestData.BuildingsFilterData.Citys.Contains(b.City));
 
             if (buildingsRequestData.BuildingsFilterData.Streets != null && buildingsRequestData.BuildingsFilterData.Streets.Any())
-                buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.Streets.Contains(b.Street));
+                buildings = buildings.Where(b => 
+                buildingsRequestData.BuildingsFilterData.Streets.Contains(b.Street));
 
             if (buildingsRequestData.BuildingsFilterData.BuildingNumbers != null && buildingsRequestData.BuildingsFilterData.BuildingNumbers.Any())
-                buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.BuildingNumbers.Contains(b.BuildingNumber));
+                buildings = buildings.Where(b => 
+                buildingsRequestData.BuildingsFilterData.BuildingNumbers.Contains(b.BuildingNumber));
 
        
             if (buildingsRequestData.BuildingsFilterData.MinFloors.HasValue)
-                buildings = buildings.Where(b => b.Floors >= buildingsRequestData.BuildingsFilterData.MinFloors);
+                buildings = buildings.Where(b => 
+                b.Floors >= buildingsRequestData.BuildingsFilterData.MinFloors);
 
             if (buildingsRequestData.BuildingsFilterData.MaxFloors.HasValue)
-                buildings = buildings.Where(b => b.Floors <= buildingsRequestData.BuildingsFilterData.MaxFloors);
+                buildings = buildings.Where(b =>
+                b.Floors <= buildingsRequestData.BuildingsFilterData.MaxFloors);
 
             if (buildingsRequestData.BuildingsFilterData.MinYearBuilt.HasValue)
-                buildings = buildings.Where(b => b.YearBuilt >= buildingsRequestData.BuildingsFilterData.MinYearBuilt);
+                buildings = buildings.Where(b =>
+                b.YearBuilt >= buildingsRequestData.BuildingsFilterData.MinYearBuilt);
 
             if (buildingsRequestData.BuildingsFilterData.MaxYearBuilt.HasValue)
-                buildings = buildings.Where(b => b.YearBuilt <= buildingsRequestData.BuildingsFilterData.MaxYearBuilt);
+                buildings = buildings.Where(b => 
+                b.YearBuilt <= buildingsRequestData.BuildingsFilterData.MaxYearBuilt);
 
 
             if (buildingsRequestData.BuildingOrderBy != BuildingOrderBy.None && buildingsRequestData.SortOrder != SortOrder.None)

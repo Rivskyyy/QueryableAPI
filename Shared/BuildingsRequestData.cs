@@ -12,8 +12,6 @@ namespace Shared
         public BuildingsFilterData BuildingsFilterData { get; set; } = new();
         public SortOrder SortOrder { get; set; } = SortOrder.None;
         public BuildingOrderBy BuildingOrderBy { get; set; } = BuildingOrderBy.None;
-
-        //public BuildingsRequestData() { }
       
     }
 }

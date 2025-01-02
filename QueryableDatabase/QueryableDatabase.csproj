@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QueryableCore\QueryableCore.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
+    <Compile Remove="DataModels\**" />
+    <EmbeddedResource Remove="DataModels\**" />
+    <None Remove="DataModels\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DataModels\" />
+    <ProjectReference Include="..\QueryableCore\QueryableCore.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

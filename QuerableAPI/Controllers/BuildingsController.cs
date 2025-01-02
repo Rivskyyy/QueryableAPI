@@ -11,19 +11,19 @@ namespace QuerableAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BuildingController : ControllerBase
+    public class BuildingsController : ControllerBase
     {
         private readonly IBuildingService _buildingService;
-        public BuildingController(IBuildingService buildingService)
+        public BuildingsController(IBuildingService buildingService)
         {
 
-            // BuildingRepository buildingRepository = new BuildingRepository(mSQLContext);
             _buildingService = buildingService;
 
         }
 
-        [HttpGet]
-        public IActionResult Get([FromQuery] BuildingsRequestData requestData)
+        [HttpPost]
+        [Route("get")]
+        public IActionResult Get([FromBody] BuildingsRequestData requestData)
         {
             var buildings = _buildingService.GetFilteredBuildings(requestData);
             return Ok(buildings);
@@ -31,6 +31,7 @@ namespace QuerableAPI.Controllers
         }
 
         [HttpPost]
+        [Route("create")]
         public IActionResult CreateBuilding([FromBody] BuildingsDtos buildingDto)
         {
             int? id = _buildingService.CreateBuilding(buildingDto);
