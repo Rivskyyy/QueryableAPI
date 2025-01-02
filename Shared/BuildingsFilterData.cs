@@ -8,12 +8,12 @@ namespace Shared
 {
     public class BuildingsFilterData
     {
-        public List<string> Name { get; set; }
-        public List<int> Id { get; set; }
-        public List<string> City { get; set; }
-        public List<string> Street { get; set; }
-        public List<string> BuildingNumber { get; set; }
-        public List<int> Floors { get; set; }
-        public List<int> YearBuilt { get; set; }
+        public List<string>? Names { get; set; }
+        public List<int>? Ids { get; set; }
+        public List<string>? Citys { get; set; }
+        public List<string>? Streets { get; set; }
+        public List<string>? BuildingNumbers { get; set; }
+        public List<int>? Floors { get; set; }
+        public List<int>? YearBuilts { get; set; }
     }
 }

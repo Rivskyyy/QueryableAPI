@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QueryableCore.DTOs;
 using QueryableCore.Services;
+using QueryableCore.Services.Interfaces;
 using QueryableDatabase.Migrations;
 using QueryableDatabase.Repositories;
 using Shared;
@@ -12,17 +13,17 @@ namespace QuerableAPI.Controllers
     [Route("[controller]")]
     public class BuildingController : ControllerBase
     {
-        private readonly BuildingService _buildingService;
-        public BuildingController(MSQLContext mSQLContext)
+        private readonly IBuildingService _buildingService;
+        public BuildingController(IBuildingService buildingService)
         {
 
-            BuildingRepository buildingRepository = new BuildingRepository(mSQLContext);
-            _buildingService = new BuildingService(buildingRepository);
+            // BuildingRepository buildingRepository = new BuildingRepository(mSQLContext);
+            _buildingService = buildingService;
 
         }
 
         [HttpGet]
-        public IActionResult Get([FromBody] BuildingsRequestData requestData)
+        public IActionResult Get([FromQuery] BuildingsRequestData requestData)
         {
             var buildings = _buildingService.GetFilteredBuildings(requestData);
             return Ok(buildings);

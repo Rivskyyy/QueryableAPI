@@ -1,4 +1,6 @@
-﻿using QueryableCore.DTOs;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using QueryableCore.DTOs;
 using QueryableCore.Services.Interfaces;
 using QueryableDatabase.Migrations;
 using QueryableDatabase.Models;
@@ -15,24 +17,16 @@ namespace QueryableDatabase.Repositories
     public class BuildingRepository : IBuildingRepository
     {
         private readonly MSQLContext _sqlContext;
-
-        public BuildingRepository(MSQLContext sqlContext)
+        private readonly IMapper _mapper;
+        public BuildingRepository(MSQLContext sqlContext, IMapper mapper)
         {
             _sqlContext = sqlContext;
+            _mapper = mapper;   
         }
 
         public int? CreaBuilding(BuildingsDtos buildingDto)
         {
-            Buildings building = new Buildings
-            {
-                Id = default,
-                Name = buildingDto.Name,
-                City = buildingDto.City,
-                Street = buildingDto.Street,
-                BuildingNumber = buildingDto.BuildingNumber,
-                Floors = buildingDto.Floors,
-                YearBuilt = buildingDto.YearBuilt,
-            };
+            Buildings building = _mapper.Map<Buildings>(buildingDto);
 
             _sqlContext.Buildings.Add(building);
             //_sqlContext.Buildings.Where(b => );
@@ -44,36 +38,40 @@ namespace QueryableDatabase.Repositories
 
         IQueryable<BuildingsDtos> IBuildingRepository.GetFilteredBuildings(BuildingsRequestData buildingsRequestData)
         {
-            IQueryable<Buildings> query = _sqlContext.Buildings;
 
-            var dtoQuery = query.Select(b => new BuildingsDtos
-            {
-                Id = b.Id,
-                Name = b.Name,
-                City = b.City,
-                Street = b.Street,
-                BuildingNumber = b.BuildingNumber,
-                Floors = b.Floors,
-                YearBuilt = b.YearBuilt
-            });
+            IQueryable<Buildings> buildings = _sqlContext.Buildings;
+            //IQueryable<BuildingsDtos> dtoQuery = query.ProjectTo<BuildingsDtos>(_mapper.ConfigurationProvider);
 
-            if (buildingsRequestData.BuildingsFilterData.Name.Any())
-                query = query.Where(b => buildingsRequestData.BuildingsFilterData.Name.Contains(b.Name));
+            /*  var dtoQuery = query.Select(b => new BuildingsDtos
+              {
+                  Id = b.Id,
+                  Name = b.Name,
+                  City = b.City,
+                  Street = b.Street,
+                  BuildingNumber = b.BuildingNumber,
+                  Floors = b.Floors,
+                  YearBuilt = b.YearBuilt
+              });*/
 
-            if (buildingsRequestData.BuildingsFilterData.City.Any())
-                query = query.Where(b => buildingsRequestData.BuildingsFilterData.City.Contains(b.City));
 
-            if (buildingsRequestData.BuildingsFilterData.Street.Any())
-                query = query.Where(b => buildingsRequestData.BuildingsFilterData.Street.Contains(b.Street));
 
-            if (buildingsRequestData.BuildingsFilterData.BuildingNumber.Any())
-                query = query.Where(b => buildingsRequestData.BuildingsFilterData.BuildingNumber.Contains(b.BuildingNumber));
+            if (buildingsRequestData.BuildingsFilterData.Names != null && buildingsRequestData.BuildingsFilterData.Names.Any()) 
+                buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.Names.Contains(b.Name));
 
-            if (buildingsRequestData.BuildingsFilterData.Floors.Any())
-                query = query.Where(b => buildingsRequestData.BuildingsFilterData.Floors.Contains(b.Floors));
+            if (buildingsRequestData.BuildingsFilterData.Citys != null && buildingsRequestData.BuildingsFilterData.Citys.Any())
+                buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.Citys.Contains(b.City));
 
-            if (buildingsRequestData.BuildingsFilterData.YearBuilt.Any())
-                query = query.Where(b => buildingsRequestData.BuildingsFilterData.YearBuilt.Contains(b.YearBuilt));
+            if (buildingsRequestData.BuildingsFilterData.Streets != null && buildingsRequestData.BuildingsFilterData.Streets.Any())
+                buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.Streets.Contains(b.Street));
+
+            if (buildingsRequestData.BuildingsFilterData.BuildingNumbers != null && buildingsRequestData.BuildingsFilterData.BuildingNumbers.Any())
+                buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.BuildingNumbers.Contains(b.BuildingNumber));
+
+            if (buildingsRequestData.BuildingsFilterData.Floors != null && buildingsRequestData.BuildingsFilterData.Floors.Any())
+                buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.Floors.Contains(b.Floors));
+
+            if (buildingsRequestData.BuildingsFilterData.YearBuilts != null && buildingsRequestData.BuildingsFilterData.YearBuilts.Any())
+                buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.YearBuilts.Contains(b.YearBuilt));
 
 
             if (buildingsRequestData.BuildingOrderBy != BuildingOrderBy.None && buildingsRequestData.SortOrder != SortOrder.None)
@@ -82,24 +80,24 @@ namespace QueryableDatabase.Repositories
                 {
                     if (buildingsRequestData.SortOrder == SortOrder.Ascending)
                     {
-                        query = query.OrderBy(b => b.Name);
+                        buildings = buildings.OrderBy(b => b.Name);
                     }
                     else
                     {
-                        query = query.OrderByDescending(b => b.Name);
+                        buildings = buildings.OrderByDescending(b => b.Name);
                     }
                 }
                 else if (buildingsRequestData.BuildingOrderBy == BuildingOrderBy.Address)
                 {
                     if (buildingsRequestData.SortOrder == SortOrder.Ascending)
                     {
-                        query = query.OrderBy(b => b.City)
+                        buildings = buildings.OrderBy(b => b.City)
                                      .ThenBy(b => b.Street)
                                      .ThenBy(b => b.BuildingNumber);
                     }
                     else
                     {
-                        query = query.OrderByDescending(b => b.City)
+                        buildings = buildings.OrderByDescending(b => b.City)
                                      .ThenByDescending(b => b.Street)
                                      .ThenByDescending(b => b.BuildingNumber);
                     }
@@ -108,27 +106,30 @@ namespace QueryableDatabase.Repositories
                 {
                     if (buildingsRequestData.SortOrder == SortOrder.Ascending)
                     {
-                        query = query.OrderBy(b => b.Floors);
+                        buildings = buildings.OrderBy(b => b.Floors);
                     }
                     else
                     {
-                        query = query.OrderByDescending(b => b.Floors);
+                        buildings = buildings.OrderByDescending(b => b.Floors);
                     }
                 }
                 else if (buildingsRequestData.BuildingOrderBy == BuildingOrderBy.YearBuilt)
                 {
                     if (buildingsRequestData.SortOrder == SortOrder.Ascending)
                     {
-                        query = query.OrderBy(b => b.YearBuilt);
+                        buildings = buildings.OrderBy(b => b.YearBuilt);
                     }
                     else
                     {
-                        query = query.OrderByDescending(b => b.YearBuilt);
+                        buildings = buildings.OrderByDescending(b => b.YearBuilt);
                     }
                 }
             }
+            var dtoBuildings = buildings.ProjectTo<BuildingsDtos>(_mapper.ConfigurationProvider);
 
-            return dtoQuery;
+            /*List<Buildings> buildingsList = query.ToList()
+            return _mapper.Map<List<BuildingsDtos>>(buildingsList);*/
+            return dtoBuildings;
         }
     }
 }

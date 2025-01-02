@@ -13,11 +13,7 @@ namespace Shared
         public SortOrder SortOrder { get; set; } = SortOrder.None;
         public BuildingOrderBy BuildingOrderBy { get; set; } = BuildingOrderBy.None;
 
-        public BuildingsRequestData(BuildingsFilterData buildingsFilterData, SortOrder sortOrder, BuildingOrderBy buildingOrderBy)
-        {
-            BuildingOrderBy = buildingOrderBy;
-            SortOrder = sortOrder;
-            BuildingsFilterData = buildingsFilterData;
-        }
+        //public BuildingsRequestData() { }
+      
     }
 }

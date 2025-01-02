@@ -1,7 +1,9 @@
 
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using QueryableCore.Services;
 using QueryableCore.Services.Interfaces;
+using QueryableDatabase.Mapping;
 using QueryableDatabase.Migrations;
 using QueryableDatabase.Repositories;
 
@@ -20,8 +22,16 @@ namespace QuerableAPI
             });
             // builder.Configuration.GetConnectionString("MSQLContext")
             #region Dependency Injection
+
             builder.Services.AddTransient<IBuildingRepository, BuildingRepository>();
             builder.Services.AddTransient<IBuildingService, BuildingService>();
+
+            var config = new MapperConfiguration(c =>
+            {
+                c.AddProfile<QueryableDatabaseMapperProfile>();
+            });
+
+            builder.Services.AddSingleton<IMapper>(s => config.CreateMapper());
             #endregion
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
