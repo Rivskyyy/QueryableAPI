@@ -67,11 +67,18 @@ namespace QueryableDatabase.Repositories
             if (buildingsRequestData.BuildingsFilterData.BuildingNumbers != null && buildingsRequestData.BuildingsFilterData.BuildingNumbers.Any())
                 buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.BuildingNumbers.Contains(b.BuildingNumber));
 
-            if (buildingsRequestData.BuildingsFilterData.Floors != null && buildingsRequestData.BuildingsFilterData.Floors.Any())
-                buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.Floors.Contains(b.Floors));
+       
+            if (buildingsRequestData.BuildingsFilterData.MinFloors.HasValue)
+                buildings = buildings.Where(b => b.Floors >= buildingsRequestData.BuildingsFilterData.MinFloors);
 
-            if (buildingsRequestData.BuildingsFilterData.YearBuilts != null && buildingsRequestData.BuildingsFilterData.YearBuilts.Any())
-                buildings = buildings.Where(b => buildingsRequestData.BuildingsFilterData.YearBuilts.Contains(b.YearBuilt));
+            if (buildingsRequestData.BuildingsFilterData.MaxFloors.HasValue)
+                buildings = buildings.Where(b => b.Floors <= buildingsRequestData.BuildingsFilterData.MaxFloors);
+
+            if (buildingsRequestData.BuildingsFilterData.MinYearBuilt.HasValue)
+                buildings = buildings.Where(b => b.YearBuilt >= buildingsRequestData.BuildingsFilterData.MinYearBuilt);
+
+            if (buildingsRequestData.BuildingsFilterData.MaxYearBuilt.HasValue)
+                buildings = buildings.Where(b => b.YearBuilt <= buildingsRequestData.BuildingsFilterData.MaxYearBuilt);
 
 
             if (buildingsRequestData.BuildingOrderBy != BuildingOrderBy.None && buildingsRequestData.SortOrder != SortOrder.None)

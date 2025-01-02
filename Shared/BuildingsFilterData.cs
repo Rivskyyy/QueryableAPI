@@ -13,7 +13,10 @@ namespace Shared
         public List<string>? Citys { get; set; }
         public List<string>? Streets { get; set; }
         public List<string>? BuildingNumbers { get; set; }
-        public List<int>? Floors { get; set; }
-        public List<int>? YearBuilts { get; set; }
+
+        public int? MinFloors { get; set; }
+        public int? MaxFloors { get; set; }
+        public int? MinYearBuilt { get; set; }
+        public int? MaxYearBuilt { get; set; }
     }
 }
